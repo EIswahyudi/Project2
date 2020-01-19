@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../css/style2.css" type="text/css" />
+    <title>Lounge</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat+Subrayada&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery.js"></script>
+
+
+    <style>
+        .chat {
+            background: #000;
+            padding: 3px;
+            /* position: relative; */
+            bottom: 100%;
+            width: 100%;
+        }
+
+        form input {
+            background: #000;
+            border: 1;
+            padding: 10px;
+            width: 100%;
+            margin-right: .5%;
+        }
+
+        .chatbutton {
+            width: 100px;
+            background: rgb(9, 194, 255);
+            border: none;
+            padding: 10px;
+        }
+
+        #messages {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 50%;
+        }
+
+        #messages li {
+            padding: 5px 10px;
+        }
+
+        #messages li:nth-child(odd) {
+            color: rgb(0, 153, 255);
+        }
+
+        #messagebox {
+            height: 300px;
+            overflow: scroll;
+        }
+
+        * {
+            color: white;
+            font-family: 'Open-sans', sans-serif;
+        }
+
+        nav,
+        button {
+            color: black;
+        }
+
+        form,
+        button {
+            background-color: white;
+        }
+
+        div.container {
+            margin-bottom: 50px;
+        }
+
+        #lounge {
+            font-family: 'Montserrat Subrayada', sans-serif;
+        }
+
+        #new {
+            margin-top: 5px;
+        }
+
+        #get {
+            color:rgb(9, 194, 255);
+        }
+
+        #addMusic {
+            padding-right: 56px;
+        }
+        #playlist {
+            list-style-type: none;
+            margin: 20;
+            padding: 2;
+        }
+    </style>
+
+</head>
+
+<body background="images/lounge3.jpg"></body>
+
+<body onload="getSongDefaultClassical()" class="body">
+    <nav class="navbar navbar-light bg-light justify-content-between">
+        <a class="navbar-brand" id="lounge">Lounge</a>
+        <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search">
+            <button i class="fa fa-search" type="submit"></button>
+        </form>
+    </nav>
+    <br />
+    <br />
+    <div class="container">
+        <div class="row d-flex justify-content-start">
+            <div class="col">
+              
+                <button i class="fa fa-arrow-left fa-2x" type="submit" id="back"></button></a>
+                <h1>Classical</h1>
+                <br />
+            </div>
+            <div class="col d-flex justify-content-end">
+                <a href="">
+                    <h3 id="get">Get playlist</h3>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col d-flex justify-content-start">
+                <div class="card" style="width: 30rem; height: 30rem">
+                    <div class="card-body">
+                        <h5 class="card-title">Chat
+                            <div id="messagebox">
+                                <ul id="messages"></ul>
+                            </div>
+                            <form class="chat" action="">
+                                <div><input id="m" autocomplete="off" /></div>
+                                <div><button class="chatbutton">Send</button></div>
+                            </form>
+
+                            <script src="/socket.io/socket.io.js"></script>
+                            <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+                            <script>
+                                $(function () {
+                                    var socket = io();
+                                    $('.chat').submit(function (e) {
+                                        e.preventDefault(); // prevents page reloading
+                                        socket.emit('chat message', $('#m').val());
+                                        $('#m').val('');
+                                        return false;
+                                    });
+                                    socket.on('chat message', function (msg) {
+                                        $('#messages').append($('<li>').text(msg));
+                                        window.scrollTo(0, document.body.scrollHeight);
+                                    });
+                                });
+                            </script>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-end">
+                <div class="card" style="width: 25rem; height: 20rem">
+                    <div class="card-body">
+                        <h5 class="card-title">Playlist goes here
+                            
+                        </h5>
+                        <form class="form-inline">
+                            <button i class="fa fa-plus fa-2x" id="submitbutton" type="submit"></button>
+                            <input class="form-control" type="search" placeholder="Add artist/song" id="addMusic">
+                        </form>
+                        <div id="playlist"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <footer>
+        <div class="card text-center" id="nowPlaying">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <div class="card text-center" id="nowPlaying"></div>
+                </h5>
+            </div>
+        </div>
+    </footer>
+    <script src="../../js/lounge.js"></script>
+    <script src="../../js/clicks.js"></script>
+    <!-- <script src="../../js/chat.js"></script> -->
+
+
+</body>
+
+</html>

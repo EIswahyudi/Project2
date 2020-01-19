@@ -1,0 +1,21 @@
+* {
+    color: white;
+    font-family: 'Open-sans', sans-serif;
+}
+
+nav, button {
+    color: black;
+}
+
+div.card-body {
+    background-color: #202020;
+}
+
+#lounge {
+    font-family: 'Montserrat Subrayada', sans-serif;
+}
+
+#get {
+    color: rgb(9, 194, 255);
+    margin-top: 50px;
+}
